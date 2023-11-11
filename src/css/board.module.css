@@ -1,0 +1,24 @@
+.board {
+    width: 260px;
+    height: 260px;
+    background: #6F6F6F;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 9px;
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+}
+
+.boardItem {
+    width: 22px;
+    height: 22px;
+    background: #343434;
+    border: 2px solid #6F6F6F;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.boardItem:hover {
+    border: 2px solid #70CBFF;
+}

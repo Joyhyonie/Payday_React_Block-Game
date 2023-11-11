@@ -1,0 +1,195 @@
+/* Global */
+@font-face {
+    /* 추후에 font 전역 적용 예정 */
+    font-family: 'Neo';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.3/NeoDunggeunmo.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+button {
+    font-family: 'Neo', sans-serif;
+    background: #525252;
+    color: #FFFFFF;
+    height: 30px;
+    font-size: 15px;
+    border: none;
+    border-radius: 5px;
+    padding: 0px 12px;
+    margin: 10px 10px 10px 0px;
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+button:hover {
+    background: #000000;
+}
+
+/* Layout */
+.alignCenter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 98vh;
+}
+
+.background {
+    position: relative;
+    width: 940px;
+    height: 440px;
+    background: #343434;
+    border-radius: 10px;
+}
+
+/* Start */
+.thumbnail {
+    display: flex;
+    position: relative;
+    justify-content: center;
+}
+
+.blocks {
+    width: 350px;
+    margin-top: 80px;
+}
+
+.logo {
+    position: absolute;
+    width: 250px;
+    margin-top: 160px;
+}
+
+.modeButtonBox {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.helpButton {
+    position: absolute;
+    padding: 0px 12px;
+    bottom: 20px;
+    right: 20px;
+}
+
+/* Main */
+.alignCenter2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 440px;
+}
+
+.mainBox {
+    position: relative;
+    width: 880px;
+    height: 380px;
+}
+
+.flex {
+    display: flex;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+}
+
+.miniLogo {
+    width: 280px;
+    height: 45px;
+    padding: 13px;
+}
+
+.desBox {
+    font-family: 'Neo', sans-serif;
+    display: flex;
+    background: #C1F0FF;
+    border-radius: 10px;
+    width: 540px;
+    height: 60px;
+}
+
+.desBox p {
+    font-size: 15px;
+    line-height: 20px;
+    margin-top: 10px; /* [임시] 문장이 두 줄일 경우의 적정한 margin  */
+}
+
+.robot {
+    width: 20px;
+    height: 20px;
+    padding: 20px;
+}
+
+.fighters {
+    margin-top: 9px;
+}
+
+.firstTurn,
+.laterTurn {
+    position: absolute;
+    right: 0px;
+    display: flex;
+    justify-content: space-between;
+    width: 540px;
+    height: 105px;
+    background: #FFFFFF;
+    border-radius: 10px;
+}
+
+.laterTurn {
+    bottom: 50px;
+}
+
+.profile {
+    width: 80px;
+    height: 80px;
+    margin: 13px;
+}
+
+.vs {
+    position: absolute;
+    font-family: 'Neo', sans-serif;
+    font-size: 20px;
+    color: #FFFFFF;
+    top: 46.5%;
+    right: 30%;
+}
+
+.footer {
+    position: absolute;
+    right: -10px;
+    bottom: -10px;
+    display: flex;
+}
+
+.footer p {
+    position: absolute;
+    left: -380px;
+    bottom: 5px;
+    font-family: 'Neo', sans-serif;
+    font-size: 13px;
+    color: #55C475; /* [임시] */
+}
+
+.giveUp:hover {
+    background: #D3151F;
+}
+
+.blockBox {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 110px;
+    width: 410px;
+}
+
+.blockBox img {
+    cursor: pointer;
+    transition: all 0.3s ease 0s;
+}
+
+.blockBox img:hover {
+    transform: scale(1.1);
+}
