@@ -77,7 +77,7 @@
 .buttonBox {
     display: flex;
     justify-content: center;
-    margin: -5px -15px -15px;
+    margin: 5px -15px -15px;
 }
 
 .orangeButton {
@@ -88,12 +88,30 @@
     background: #FF5C00;
 }
 
+.profileBox {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.profileBox img {
+    width: 80px;
+}
+
+.profileBox p {
+    color: #343434;
+    font-size: 20px;
+    position: absolute;
+    right: 130px;
+    top: 40px;
+}
+
 /* Description Modal */
 .desContainer {
     position: absolute;
     bottom: 44px;
     right: 70px;
-    z-index: 2;
+    z-index: 70;
     background: #C1F0FF;
     opacity: 0.9;
     border-radius: 30px 30px 0px 30px;
@@ -121,4 +139,14 @@
     width: 20px;
     height: 20px;
     padding: 20px 15px 0px 20px;
+}
+
+.centerInfo {
+    text-align: center;
+    line-height: 20px;
+}
+
+.text {
+    padding: 0px 30px 20px;
+    line-height: 20px;
 }
