@@ -7,28 +7,31 @@ import four from "../../../public/images/blockFour.png";
 import five from "../../../public/images/blockFive.png";
 
 function BlockBox() {
+  /* 누구의 turn? */
+
   /* 선택된 블럭에 따른 색 변경 */
 
   const color = {
-    filter: "opacity(0.35) grayscale(100%)",
+    /* 선택된 블럭이 아닌 다른 것들에 적용할 style */
+    filter: "opacity(0.25)",
   };
 
   return (
     <div className={CommonCSS.blockBox}>
       <div>
-        <img src={one} alt="첫번째 블럭" />
+        <img src={one} style={color} alt="첫번째 블럭" />
       </div>
       <div>
-        <img src={two} alt="두번째 블럭" />
+        <img src={two} style={color} alt="두번째 블럭" />
       </div>
       <div>
         <img src={three} alt="세번째 블럭" />
       </div>
       <div>
-        <img src={four} alt="네번째 블럭" />
+        <img src={four} style={color} alt="네번째 블럭" />
       </div>
       <div>
-        <img src={five} alt="다섯번째 블럭" />
+        <img src={five} style={color} alt="다섯번째 블럭" />
       </div>
     </div>
   );

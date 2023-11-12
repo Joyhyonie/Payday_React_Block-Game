@@ -42,27 +42,34 @@ button:hover {
 }
 
 /* Start */
+.start {
+    display: flex;
+    justify-content: center;
+}
+
 .thumbnail {
     display: flex;
-    position: relative;
+    position: absolute;
+    z-index: 1;
     justify-content: center;
+    align-items: center;
+    top: 90px;
 }
 
 .blocks {
     width: 350px;
-    margin-top: 80px;
 }
 
 .logo {
     position: absolute;
     width: 250px;
-    margin-top: 160px;
 }
 
 .modeButtonBox {
     display: flex;
+    position: absolute;
+    bottom: 80px;
     justify-content: center;
-    margin-top: 30px;
 }
 
 .helpButton {
@@ -102,7 +109,6 @@ button:hover {
 }
 
 .desBox {
-    font-family: 'Neo', sans-serif;
     display: flex;
     background: #C1F0FF;
     border-radius: 10px;
@@ -110,7 +116,8 @@ button:hover {
     height: 60px;
 }
 
-.desBox p {
+.desBox pre {
+    font-family: 'Neo', sans-serif;
     font-size: 15px;
     line-height: 20px;
     margin-top: 10px; /* [임시] 문장이 두 줄일 경우의 적정한 margin  */
