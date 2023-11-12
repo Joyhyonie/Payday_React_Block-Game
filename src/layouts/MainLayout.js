@@ -1,26 +1,38 @@
-import React, { useState } from "react";
-import Header from "../components/Header";
-import Board from "../components/Board/Board";
+import React, { useEffect, useState } from "react";
+import Header from "../components/common/Header";
+import Board from "../components/board/Board";
 import FightersLayout from "./FightersLayout";
-import Footer from "../components/Footer";
+import Footer from "../components/common/Footer";
 import MainCSS from "../css/main.module.css";
-import ImpossibleModal from "../modals/impossibleModal";
-import GiveUpModal from "../modals/giveUpModal";
-import RuleDesModal from "../modals/ruleDesModal";
-import WinModal from "../modals/winModal";
-import LoseModal from "../modals/loseModal";
+import ImpossibleModal from "../modals/ImpossibleModal";
+import GiveUpModal from "../modals/GiveUpModal";
+import RuleDesModal from "../modals/RuleDesModal";
+import WinModal from "../modals/WinModal";
+import LoseModal from "../modals/LoseModal";
+import GameStartModal from "../modals/GameStartModal";
 
 function MainLayout() {
-  /* 처음 렌더링될 때만 Game Start 띄우기 */
-
+  const [gameStartModal, setGameStartModal] = useState(true);
   const [impossibleModal, setImpossibleModal] = useState(false);
   const [giveUpModal, setGiveUpModal] = useState(false);
   const [ruleDesModal, setRuleDesModal] = useState(false);
-  const [winModal, setWinModal] = useState(true);
+  const [winModal, setWinModal] = useState(false);
   const [loseModal, setLoseModal] = useState(false);
+
+  /* 첫 렌더링 시, Game Start 띄우기 */
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setGameStartModal(false);
+
+      return () => clearTimeout(timer);
+    }, 2300);
+  }, []);
 
   return (
     <>
+      {/* Game Start */}
+      {gameStartModal ? <GameStartModal /> : null}
+
       {/* All modals in main */}
       {impossibleModal ? (
         <ImpossibleModal setImpossibleModal={setImpossibleModal} />
@@ -29,7 +41,6 @@ function MainLayout() {
       {ruleDesModal ? <RuleDesModal setRuleDesModal={setRuleDesModal} /> : null}
       {winModal ? <WinModal setWinModal={setWinModal} /> : null}
       {loseModal ? <LoseModal setLoseModal={setLoseModal} /> : null}
-
       <div className={MainCSS.alignCenter}>
         <div className={MainCSS.mainBox}>
           <Header />

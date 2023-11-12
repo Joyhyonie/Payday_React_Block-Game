@@ -1,5 +1,5 @@
 import React from "react";
-import MainCSS from "../css/main.module.css";
+import MainCSS from "../../css/main.module.css";
 function Footer({ setGiveUpModal, setRuleDesModal }) {
   /* error/confirm에 따라 p 태그 색상 변경 */
 

@@ -63,6 +63,22 @@ button:hover {
 .logo {
     position: absolute;
     width: 250px;
+    animation-name: logo;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    transition-timing-function: linear;
+}
+
+@keyframes logo {
+    from {
+        transform: translateY(-35px);
+    }
+    50% {
+        transform: translateY(35px);
+    }
+    to {
+        transform: translateY(-35px);
+    }
 }
 
 .modeButtonBox {

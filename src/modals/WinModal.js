@@ -11,13 +11,13 @@ function winModal({ setWinModal }) {
   const comfetti = new JSConfetti();
 
   /* 폭죽효과 */
-  function onCompetti() {
+  const onCompetti = () => {
     comfetti.addConfetti({
       confettiColors: ["#FE0E1A", "#FEDD50", "#55C475", "#0155B6", "#B23BB1"],
       confettiRadius: 3,
       confettiNumber: 500,
     });
-  }
+  };
 
   /* winModal 활성화 시, 동작 */
   onCompetti();

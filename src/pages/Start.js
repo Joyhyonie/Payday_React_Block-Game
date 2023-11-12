@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import blocks from "../../public/images/blocks.png";
 import logo from "../../public/images/logo.png";
 import CommonCSS from "../css/common.module.css";
-import InputModal from "../modals/inputModal";
-import ModeDesModal from "../modals/modeDesModal";
+import InputModal from "../modals/InputModal";
+import ModeDesModal from "../modals/ModeDesModal";
 
 function Start() {
   const [inputModal, setInputModal] = useState(false);
