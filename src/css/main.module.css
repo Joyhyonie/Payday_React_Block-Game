@@ -43,7 +43,6 @@ pre {
     font-family: 'Neo', sans-serif;
     font-size: 15px;
     line-height: 20px;
-    margin-top: 10px; /* [임시] 문장이 두 줄일 경우의 적정한 margin  */
 }
 
 .robot {

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-function TypingText({ text }) {
+function TypingText({ text, textParagraph }) {
   const [textBox, setTextBox] = useState("");
   const [count, setCount] = useState(0);
 
@@ -18,7 +18,11 @@ function TypingText({ text }) {
     return () => clearInterval(interval);
   });
 
-  return <pre>{textBox}</pre>;
+  return (
+    <pre style={{ marginTop: textParagraph === 1 ? "20px" : "10px" }}>
+      {textBox}
+    </pre>
+  );
 }
 
 export default TypingText;

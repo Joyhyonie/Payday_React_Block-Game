@@ -10,7 +10,6 @@ function inputModal({ setInputModal }) {
   /* p태그 요소 */
   // ! 캐릭터를 선택해주세요.
   // ! 닉네임을 입력해주세요.
-  // ! 닉네임은 10자이내여야합니다.
   // ! 선공/후공을 선택해주세요.
 
   /* 선택된 캐릭터 활성화 css */
@@ -29,7 +28,7 @@ function inputModal({ setInputModal }) {
         <p>&nbsp;</p>
         <div className={ModalCSS.nicknameBox}>
           ▸ 닉네임 입력 <br />
-          <input type="text" />
+          <input type="text" maxLength={8} />
           <p>&nbsp;</p>
         </div>
         <div className={ModalCSS.checkBox}>
