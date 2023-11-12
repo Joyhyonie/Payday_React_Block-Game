@@ -1,12 +1,3 @@
-/* Global */
-@font-face {
-    /* 추후에 font 전역 적용 예정 */
-    font-family: 'Neo';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.3/NeoDunggeunmo.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
 .background {
     position: relative;
     z-index: 100;
@@ -95,4 +86,39 @@
 
 .orangeButton:hover {
     background: #FF5C00;
+}
+
+/* Description Modal */
+.desContainer {
+    position: absolute;
+    bottom: 44px;
+    right: 70px;
+    z-index: 2;
+    background: #C1F0FF;
+    opacity: 0.9;
+    border-radius: 30px 30px 0px 30px;
+    color: #343434;
+    font-size: 15px;
+    font-family: 'Neo', sans-serif;
+}
+
+.desContainer ul {
+    line-height: 20px;
+    margin-top: 0px;
+    padding-right: 30px;
+}
+
+.desTitle {
+    display: flex;
+}
+
+.desTitle p {
+    margin-top: 23px;
+    font-weight: bold;
+}
+
+.desTitle img {
+    width: 20px;
+    height: 20px;
+    padding: 20px 15px 0px 20px;
 }

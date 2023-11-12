@@ -3,15 +3,15 @@ import Header from "../components/Header";
 import Board from "../components/Board/Board";
 import FightersLayout from "./FightersLayout";
 import Footer from "../components/Footer";
-import CommonCSS from "../css/common.module.css";
+import MainCSS from "../css/main.module.css";
 function MainLayout() {
   /* 처음 렌더링될 때만 Game Start 띄우기 */
 
   return (
-    <div className={CommonCSS.alignCenter2}>
-      <div className={CommonCSS.mainBox}>
+    <div className={MainCSS.alignCenter}>
+      <div className={MainCSS.mainBox}>
         <Header />
-        <div className={CommonCSS.flex}>
+        <div className={MainCSS.flex}>
           <Board />
           <div>
             <FightersLayout />

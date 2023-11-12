@@ -1,5 +1,5 @@
 import React from "react";
-import CommonCSS from "../../css/common.module.css";
+import MainCSS from "../../css/main.module.css";
 import one from "../../../public/images/blockOne.png";
 import two from "../../../public/images/blockTwo.png";
 import three from "../../../public/images/blockThree.png";
@@ -17,7 +17,7 @@ function BlockBox() {
   };
 
   return (
-    <div className={CommonCSS.blockBox}>
+    <div className={MainCSS.blockBox}>
       <div>
         <img src={one} style={color} alt="첫번째 블럭" />
       </div>

@@ -3,15 +3,19 @@ import blocks from "../../public/images/blocks.png";
 import logo from "../../public/images/logo.png";
 import CommonCSS from "../css/common.module.css";
 import InputModal from "../modals/inputModal";
+import ModeDesModal from "../modals/modeDesModal";
 
 function Start() {
-  const [inputModal, setInputModal] = useState(true);
+  const [inputModal, setInputModal] = useState(false);
+  const [modeDesModal, setModeDesModal] = useState(false);
 
   return (
     <div className={CommonCSS.start}>
-      <div>
-        {inputModal ? <InputModal setInputModal={setInputModal} /> : null}
-      </div>
+      {/* inputModal */}
+      {inputModal ? <InputModal setInputModal={setInputModal} /> : null}
+      {/* modeDesModal */}
+      {modeDesModal ? <ModeDesModal setModeDesModal={setModeDesModal} /> : null}
+
       <div className={CommonCSS.thumbnail}>
         <img className={CommonCSS.blocks} src={blocks} alt="blocks" />
         <img className={CommonCSS.logo} src={logo} alt="logo" />
@@ -30,7 +34,13 @@ function Start() {
           수동모드
         </button>
       </div>
-      <button className={CommonCSS.helpButton}>?</button>
+      <button
+        className={CommonCSS.helpButton}
+        onMouseOver={() => setModeDesModal(true)}
+        onMouseOut={() => setModeDesModal(false)}
+      >
+        ?
+      </button>
     </div>
   );
 }

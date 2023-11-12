@@ -1,7 +1,7 @@
 import React from "react";
-import BoardCSS from "../../css/board.module.css";
+import MainCSS from "../../css/main.module.css";
 function BoardItem({ rowIndex, columnIndex, value }) {
-  return <div className={BoardCSS.boardItem}></div>;
+  return <div className={MainCSS.boardItem}></div>;
 }
 
 export default BoardItem;

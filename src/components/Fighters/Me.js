@@ -1,5 +1,5 @@
 import React from "react";
-import CommonCSS from "../../css/common.module.css";
+import MainCSS from "../../css/main.module.css";
 import bong from "../../../public/images/bong.png";
 import BlockBox from "./BlockBox";
 function Me() {
@@ -9,7 +9,7 @@ function Me() {
   return (
     <>
       <BlockBox />
-      <img src={bong} className={CommonCSS.profile} alt="봉급이" />
+      <img src={bong} className={MainCSS.profile} alt="봉급이" />
     </>
   );
 }
