@@ -1,28 +1,55 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Me from "../components/fighters/Me";
 import Someone from "../components/fighters/Someone";
 import MainCSS from "../css/main.module.css";
-function FightersLayout() {
+function FightersLayout({
+  autoMode,
+  profile,
+  first,
+  selectedBlock,
+  setSelectedBlock,
+}) {
   /* 선공/후공 여부 판단 후, component 배치 설정 */
 
-  /* 현재 turn */
-  // 선공 선택 시, true가 기본값 / 후공 선택 시, false가 기본값
-  const [currentTurn, setCurrentTurn] = useState(true);
-
-  /* 현재 turn의 style */
-  const style = {
-    border: "3px solid #70CBFF",
-    boxSizing: "border-box",
-  };
+  // first는 선/후공, turn은 현재 놓을 사람의 turn
+  const [turn, setTurn] = useState(first);
 
   return (
     <div className={MainCSS.fighters}>
-      <div className={MainCSS.firstTurn} style={currentTurn ? style : null}>
-        <Me currentTurn={currentTurn} /> {/* [임시] 선공자리 */}
+      <div className={MainCSS.firstTurn}>
+        {/* 선공 */}
+        {first ? (
+          <Me
+            turn={turn}
+            profile={profile}
+            selectedBlock={selectedBlock}
+            setSelectedBlock={setSelectedBlock}
+          />
+        ) : (
+          <Someone
+            turn={turn}
+            selectedBlock={selectedBlock}
+            setSelectedBlock={setSelectedBlock}
+          />
+        )}
       </div>
       <p className={MainCSS.vs}>VS</p>
-      <div className={MainCSS.laterTurn} style={!currentTurn ? style : null}>
-        <Someone currentTurn={currentTurn} /> {/* [임시] 후공자리 */}
+      <div className={MainCSS.laterTurn}>
+        {/* 후공 */}
+        {!first ? (
+          <Me
+            turn={turn}
+            profile={profile}
+            selectedBlock={selectedBlock}
+            setSelectedBlock={setSelectedBlock}
+          />
+        ) : (
+          <Someone
+            turn={turn}
+            selectedBlock={selectedBlock}
+            setSelectedBlock={setSelectedBlock}
+          />
+        )}
       </div>
     </div>
   );

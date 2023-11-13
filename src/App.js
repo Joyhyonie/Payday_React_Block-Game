@@ -8,14 +8,15 @@ function App() {
   const [autoMode, setAutoMode] = useState(true); // mode
   const [profile, setProfile] = useState(""); // profile
   const [nickname, setNickname] = useState(""); // nickname
-  const [turn, setTurn] = useState(true); // turn
+  const [first, setFirst] = useState(true); // first
 
   // [임시] 출력용
-  useEffect(() => {
-    console.log(profile);
-    console.log(nickname);
-    console.log(turn);
-  }, [profile, nickname, turn]);
+  // useEffect(() => {
+  //   console.log(autoMode);
+  //   console.log(profile);
+  //   console.log(nickname);
+  //   console.log(turn);
+  // }, [autoMode, profile, nickname, turn]);
 
   return (
     <>
@@ -31,12 +32,22 @@ function App() {
                   setProfile={setProfile}
                   nickname={nickname}
                   setNickname={setNickname}
-                  setTurn={setTurn}
+                  setFirst={setFirst}
                 />
               }
             />
             {/* Running Game Layout */}
-            <Route path="main" element={<MainLayout />} />
+            <Route
+              path="main"
+              element={
+                <MainLayout
+                  autoMode={autoMode}
+                  profile={profile}
+                  nickname={nickname}
+                  first={first}
+                />
+              }
+            />
           </Route>
           {/* 설정한 path가 아닐 경우, Error 페이지로 이동 */}
           <Route path="*" element={<Error />} />

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainCSS from "../../css/main.module.css";
 import one from "../../../public/images/blockOne.png";
 import two from "../../../public/images/blockTwo.png";
@@ -6,9 +6,7 @@ import three from "../../../public/images/blockThree.png";
 import four from "../../../public/images/blockFour.png";
 import five from "../../../public/images/blockFive.png";
 
-function BlockBox() {
-  const [selectedBlock, setSelectedBlock] = useState(null);
-
+function BlockBox({ selectedBlock, setSelectedBlock }) {
   /* 선택된 블럭에 따른 색 변경 */
   const style = (blockNumber) => {
     if (selectedBlock !== null && selectedBlock !== blockNumber) {
@@ -16,8 +14,6 @@ function BlockBox() {
     }
     return {};
   };
-
-  /* 누구의 turn? */
 
   return (
     <div className={MainCSS.blockBox}>

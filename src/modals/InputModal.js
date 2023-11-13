@@ -9,7 +9,7 @@ function inputModal({
   setProfile,
   nickname,
   setNickname,
-  setTurn,
+  setFirst,
 }) {
   const navigate = useNavigate();
   const [selectedProfile, setSelectedProfile] = useState("");
@@ -87,14 +87,14 @@ function inputModal({
             name="turn"
             value="first"
             defaultChecked
-            onChange={(e) => setTurn(true)}
+            onChange={(e) => setFirst(true)}
           />
           선공
           <input
             type="radio"
             name="turn"
             value="later"
-            onChange={(e) => setTurn(false)}
+            onChange={(e) => setFirst(false)}
           />
           후공
         </div>

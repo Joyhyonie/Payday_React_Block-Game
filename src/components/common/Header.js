@@ -3,9 +3,8 @@ import miniLogo from "../../../public/images/mini-logo.png";
 import robot from "../../../public/images/robot.png";
 import MainCSS from "../../css/main.module.css";
 import TypingText from "./TypingText";
-function Header() {
+function Header({ nickname }) {
   /* Header 주요 역할 = 알맞은 infomation(text) 노출 */
-  let nickname = "부리부리부리부리"; // [임시]
   let test = 0; // [임시]
   const [text, setText] = useState("");
   const [textParagraph, setTextParagraph] = useState(1);
@@ -28,11 +27,14 @@ function Header() {
       );
       setTextParagraph(2);
     } else if (test === 2) {
+      setText("상대방이 다섯번째 블럭을 4열 6행에 두었습니다.");
+      setTextParagraph(1);
+    } else if (test === 3) {
       setText(
         nickname + "님이 놓을 블럭 및 위치를 선택한 후, 놓기를 클릭해주세요.",
       );
       setTextParagraph(1);
-    } else if (test === 3) {
+    } else if (test === 4) {
       setText(nickname + "님이 블럭 및 위치를 골똘히 고민 중입니다.....");
       setTextParagraph(1);
     }

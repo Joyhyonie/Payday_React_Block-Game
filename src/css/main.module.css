@@ -101,7 +101,7 @@ pre {
 .profile {
     width: 80px;
     height: 80px;
-    margin: 11px;
+    margin: 13px;
 }
 
 .vs {
@@ -148,15 +148,15 @@ pre {
 .clearCover .balloon {
     position: absolute;
     width: 100px;
-    top: -20px;
-    right: 80px;
+    top: -17px;
+    right: 70px;
 }
 
 .clearCover .thinking {
     position: absolute;
     width: 48px;
-    top: -25px;
-    right: 105px;
+    top: -22px;
+    right: 95px;
 }
 
 /* footer */
@@ -173,7 +173,6 @@ pre {
     bottom: 5px;
     font-family: 'Neo', sans-serif;
     font-size: 13px;
-    color: #55C475; /* [임시] */
 }
 
 .giveUp:hover {

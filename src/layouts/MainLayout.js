@@ -11,12 +11,15 @@ import WinModal from "../modals/WinModal";
 import LoseModal from "../modals/LoseModal";
 import GameStartModal from "../modals/GameStartModal";
 
-function MainLayout() {
+function MainLayout({ autoMode, profile, nickname, first }) {
+  /* 첫 렌더링 시, 새로운 보드판 생성 */
   const newBoard = Array.from({ length: 10 }, () =>
     Array(10).fill({ value: 0 }),
   );
 
   const [board, setBoard] = useState(newBoard);
+  const [selectedBlock, setSelectedBlock] = useState(null);
+  const [selectedXy, setSelectedXy] = useState([]);
   const [gameStartModal, setGameStartModal] = useState(true);
   const [impossibleModal, setImpossibleModal] = useState(false);
   const [giveUpModal, setGiveUpModal] = useState(false);
@@ -28,7 +31,6 @@ function MainLayout() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setGameStartModal(false);
-
       return () => clearTimeout(timer);
     }, 2300);
   }, []);
@@ -48,14 +50,28 @@ function MainLayout() {
       {loseModal ? <LoseModal setLoseModal={setLoseModal} /> : null}
       <div className={MainCSS.alignCenter}>
         <div className={MainCSS.mainBox}>
-          <Header />
+          {/* Header/Footer에 필요: selectedBlock, selectedXy */}
+          <Header nickname={nickname} />
           <div className={MainCSS.flex}>
-            <Board board={board} />
+            <Board
+              board={board}
+              selectedBlock={selectedBlock}
+              selectedXy={selectedXy}
+              setSelectedXy={setSelectedXy}
+            />
             <div>
-              <FightersLayout />
+              <FightersLayout
+                autoMode={autoMode}
+                profile={profile}
+                first={first}
+                selectedBlock={selectedBlock}
+                setSelectedBlock={setSelectedBlock}
+              />
               <Footer
                 setGiveUpModal={setGiveUpModal}
                 setRuleDesModal={setRuleDesModal}
+                selectedBlock={selectedBlock}
+                selectedXy={selectedXy}
               />
             </div>
           </div>

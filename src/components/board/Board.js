@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainCSS from "../../css/main.module.css";
 import BoardItem from "./BoardItem";
-function Board({ board }) {
+function Board({ board, selectedBlock, selectedXy, setSelectedXy }) {
+  // [임시] 출력용
+  useEffect(() => {
+    console.log(selectedXy);
+  }, [selectedXy]);
+
   return (
     <>
       <div className={MainCSS.board}>
@@ -10,8 +15,10 @@ function Board({ board }) {
             <BoardItem
               key={rowIndex * 10 + colIndex}
               value={col.value}
+              selectedXy={selectedXy}
+              setSelectedXy={setSelectedXy}
               rowIndex={rowIndex}
-              columnIndex={colIndex}
+              colIndex={colIndex}
             />
           )),
         )}

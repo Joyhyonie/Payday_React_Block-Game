@@ -5,7 +5,7 @@ import CommonCSS from "../css/common.module.css";
 import InputModal from "../modals/InputModal";
 import ModeDesModal from "../modals/ModeDesModal";
 
-function Start({ setAutoMode, setProfile, nickname, setNickname, setTurn }) {
+function Start({ setAutoMode, setProfile, nickname, setNickname, setFirst }) {
   const [inputModal, setInputModal] = useState(false);
   const [modeDesModal, setModeDesModal] = useState(false);
 
@@ -18,7 +18,7 @@ function Start({ setAutoMode, setProfile, nickname, setNickname, setTurn }) {
           setProfile={setProfile}
           nickname={nickname}
           setNickname={setNickname}
-          setTurn={setTurn}
+          setFirst={setFirst}
         />
       ) : null}
       {/* modeDesModal */}
