@@ -7,7 +7,7 @@ function FightersLayout() {
 
   /* 현재 turn */
   // 선공 선택 시, true가 기본값 / 후공 선택 시, false가 기본값
-  const [currentTurn, setCurrentTurn] = useState(false);
+  const [currentTurn, setCurrentTurn] = useState(true);
 
   /* 현재 turn의 style */
   const style = {

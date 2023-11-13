@@ -1,9 +1,7 @@
 import React from "react";
 import MainCSS from "../../css/main.module.css";
 import BoardItem from "./BoardItem";
-function Board() {
-  const board = Array.from({ length: 10 }, () => Array(10).fill({ value: 0 }));
-
+function Board({ board }) {
   return (
     <>
       <div className={MainCSS.board}>

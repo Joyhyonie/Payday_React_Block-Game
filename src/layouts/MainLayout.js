@@ -12,6 +12,11 @@ import LoseModal from "../modals/LoseModal";
 import GameStartModal from "../modals/GameStartModal";
 
 function MainLayout() {
+  const newBoard = Array.from({ length: 10 }, () =>
+    Array(10).fill({ value: 0 }),
+  );
+
+  const [board, setBoard] = useState(newBoard);
   const [gameStartModal, setGameStartModal] = useState(true);
   const [impossibleModal, setImpossibleModal] = useState(false);
   const [giveUpModal, setGiveUpModal] = useState(false);
@@ -45,7 +50,7 @@ function MainLayout() {
         <div className={MainCSS.mainBox}>
           <Header />
           <div className={MainCSS.flex}>
-            <Board />
+            <Board board={board} />
             <div>
               <FightersLayout />
               <Footer

@@ -5,14 +5,22 @@ import CommonCSS from "../css/common.module.css";
 import InputModal from "../modals/InputModal";
 import ModeDesModal from "../modals/ModeDesModal";
 
-function Start() {
+function Start({ setAutoMode, setProfile, nickname, setNickname, setTurn }) {
   const [inputModal, setInputModal] = useState(false);
   const [modeDesModal, setModeDesModal] = useState(false);
 
   return (
     <div className={CommonCSS.start}>
       {/* inputModal */}
-      {inputModal ? <InputModal setInputModal={setInputModal} /> : null}
+      {inputModal ? (
+        <InputModal
+          setInputModal={setInputModal}
+          setProfile={setProfile}
+          nickname={nickname}
+          setNickname={setNickname}
+          setTurn={setTurn}
+        />
+      ) : null}
       {/* modeDesModal */}
       {modeDesModal ? <ModeDesModal setModeDesModal={setModeDesModal} /> : null}
 
@@ -29,7 +37,10 @@ function Start() {
         </button>
         <button
           style={{ padding: "0px 30px" }}
-          onClick={() => setInputModal(true)}
+          onClick={() => {
+            setInputModal(true);
+            setAutoMode(false);
+          }}
         >
           수동모드
         </button>

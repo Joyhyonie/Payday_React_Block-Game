@@ -138,6 +138,27 @@ pre {
     border-radius: 10px;
 }
 
+.clearCover {
+    position: absolute;
+    width: 540px;
+    height: 105px;
+    border-radius: 10px;
+}
+
+.clearCover .balloon {
+    position: absolute;
+    width: 100px;
+    top: -20px;
+    right: 80px;
+}
+
+.clearCover .thinking {
+    position: absolute;
+    width: 48px;
+    top: -25px;
+    right: 105px;
+}
+
 /* footer */
 .footer {
     position: absolute;

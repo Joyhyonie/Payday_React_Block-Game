@@ -1,17 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Error from "./pages/Error";
 import Start from "./pages/Start";
 import MainLayout from "./layouts/MainLayout";
 function App() {
+  const [autoMode, setAutoMode] = useState(true); // mode
+  const [profile, setProfile] = useState(""); // profile
+  const [nickname, setNickname] = useState(""); // nickname
+  const [turn, setTurn] = useState(true); // turn
+
+  // [임시] 출력용
+  useEffect(() => {
+    console.log(profile);
+    console.log(nickname);
+    console.log(turn);
+  }, [profile, nickname, turn]);
+
   return (
     <>
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Layout />}>
             {/* Starting Game Page */}
-            <Route index element={<Start />} />
+            <Route
+              index
+              element={
+                <Start
+                  setAutoMode={setAutoMode}
+                  setProfile={setProfile}
+                  nickname={nickname}
+                  setNickname={setNickname}
+                  setTurn={setTurn}
+                />
+              }
+            />
             {/* Running Game Layout */}
             <Route path="main" element={<MainLayout />} />
           </Route>
