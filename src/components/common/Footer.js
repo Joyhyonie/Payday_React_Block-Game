@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import MainCSS from "../../css/main.module.css";
-import { setBlockOnTheBoard } from "../../Functions";
+import setBlockOnTheBoard from "../board/Board";
 function Footer({
   setGiveUpModal,
   setRuleDesModal,
   selectedBlock,
   selectedXy,
+  checkBoard,
 }) {
   const [errorText, setErrorText] = useState("");
 
@@ -46,7 +47,7 @@ function Footer({
     }
 
     /* setBlockOnTheBoard() 호출 */
-    setBlockOnTheBoard(selectedBlock);
+    checkBoard(selectedBlock, selectedXy);
   };
 
   return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import MainCSS from "../../css/main.module.css";
-function BoardItem({
+function MockBoardItem({
   rowIndex,
   colIndex,
   value,
@@ -45,4 +45,4 @@ function BoardItem({
   );
 }
 
-export default BoardItem;
+export default MockBoardItem;

@@ -5,6 +5,10 @@ import Error from "./pages/Error";
 import Start from "./pages/Start";
 import MainLayout from "./layouts/MainLayout";
 function App() {
+  /* 첫 렌더링 시, 빈 보드판 생성 */
+  const emptyBoard = Array.from({ length: 10 }, () =>
+    Array(10).fill({ value: 0 }),
+  );
   const [autoMode, setAutoMode] = useState(true); // mode
   const [profile, setProfile] = useState(""); // profile
   const [nickname, setNickname] = useState(""); // nickname
@@ -15,8 +19,8 @@ function App() {
   //   console.log(autoMode);
   //   console.log(profile);
   //   console.log(nickname);
-  //   console.log(turn);
-  // }, [autoMode, profile, nickname, turn]);
+  //   console.log(first);
+  // }, [autoMode, profile, nickname, first]);
 
   return (
     <>
@@ -41,6 +45,7 @@ function App() {
               path="main"
               element={
                 <MainLayout
+                  emptyBoard={emptyBoard}
                   autoMode={autoMode}
                   profile={profile}
                   nickname={nickname}
