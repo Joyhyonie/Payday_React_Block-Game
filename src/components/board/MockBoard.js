@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import MainCSS from "../../css/main.module.css";
 import BoardItem from "./BoardItem";
-function Board({ board, selectedXy, setSelectedXy }) {
+function MockBoard({ mockBoard, selectedXy, setSelectedXy }) {
   return (
     <>
       <div className={MainCSS.board}>
         {/* selectedBlock과 selectedXy가 존재할 때 활성화 / 아닐 경우, BoardItem */}
-        {board.map((row, rowIndex) =>
+        {mockBoard.map((row, rowIndex) =>
           row.map((col, colIndex) => (
             <BoardItem
               key={rowIndex * 10 + colIndex}
@@ -24,4 +24,4 @@ function Board({ board, selectedXy, setSelectedXy }) {
   );
 }
 
-export default Board;
+export default MockBoard;

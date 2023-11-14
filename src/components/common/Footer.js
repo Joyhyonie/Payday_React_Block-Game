@@ -46,7 +46,7 @@ function Footer({
       setErrorText("! 위치를 선택해주세요.");
     }
 
-    /* setBlockOnTheBoard() 호출 */
+    /* checkBoard() 호출 */
     checkBoard(selectedBlock, selectedXy);
   };
 

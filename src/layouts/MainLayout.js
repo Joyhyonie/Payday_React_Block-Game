@@ -10,9 +10,11 @@ import RuleDesModal from "../modals/RuleDesModal";
 import WinModal from "../modals/WinModal";
 import LoseModal from "../modals/LoseModal";
 import GameStartModal from "../modals/GameStartModal";
+import MockBoard from "../components/board/MockBoard";
 
 function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
   const [board, setBoard] = useState(emptyBoard);
+  const [mockBoard, setMockBoard] = useState(board);
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [selectedXy, setSelectedXy] = useState([]);
   const [gameStartModal, setGameStartModal] = useState(true);
@@ -31,7 +33,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
   ];
 
   /* board에 block을 set하기 위한 함수 */
-  const setBlockOnTheBoard = (selectedBlock, selectedXy) => {
+  const updateBoard = (selectedBlock, selectedXy, prevBoard) => {
     let color;
     switch (selectedBlock) {
       case 1:
@@ -51,42 +53,40 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
         break;
     }
 
-    setBoard((prevBoard) => {
-      // 이전 상태를 기반으로 새로운 배열을 생성하여 불변성을 유지
-      const newBoard = JSON.parse(JSON.stringify(prevBoard));
-      let row = selectedXy[0];
-      let col = selectedXy[1];
+    // 이전 상태를 기반으로 새로운 배열을 생성하여 불변성을 유지
+    const newBoard = JSON.parse(JSON.stringify(prevBoard));
+    let row = selectedXy[0];
+    let col = selectedXy[1];
 
-      if (selectedBlock === 1) {
-        for (let i = 0; i < 10; i++) {
-          if (i === row) {
-            for (let j = col; j < col + 3; j++) {
-              newBoard[i][j].value = 1; // 놓을 수 없는 위치에 두려고 할 때 에러
+    if (selectedBlock === 1) {
+      for (let i = 0; i < 10; i++) {
+        if (i === row) {
+          for (let j = col; j < col + 3; j++) {
+            if (newBoard[i] && newBoard[i][j]) {
+              newBoard[i][j].value = 1;
               newBoard[i][j].color = color;
             }
-            break;
           }
+          break;
         }
-      } else {
-        let blockIndex = 0;
-        for (let i = 0; i < 10; i++) {
-          if (i === row || i === row + 1) {
-            for (let j = col; j < col + 2; j++) {
-              if (blocks[selectedBlock - 1][blockIndex++] === 1) {
-                newBoard[i][j].value = 1; // 놓을 수 없는 위치에 두려고 할 때 에러
+      }
+    } else {
+      let blockIndex = 0;
+      for (let i = 0; i < 10; i++) {
+        if (i === row || i === row + 1) {
+          for (let j = col; j < col + 2; j++) {
+            if (blocks[selectedBlock - 1][blockIndex++] === 1) {
+              if (newBoard[i] && newBoard[i][j]) {
+                newBoard[i][j].value = 1;
                 newBoard[i][j].color = color;
               }
             }
           }
         }
       }
+    }
 
-      /* 놓고나서 기존 값 초기화 */
-      setSelectedBlock(null);
-      setSelectedXy([]);
-
-      return newBoard; // 업데이트된 배열을 반환하여 board 업데이트
-    });
+    return newBoard; // 업데이트된 배열을 반환하여 board 업데이트
   };
 
   /* board에 들어갈 수 있는 유효한 block인지 확인 후, set하기 위한 함수 */
@@ -129,13 +129,23 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
     } else {
       if (selectedBlock === 1) {
         if (selectedXy[0] <= 9 && selectedXy[1] <= 7) {
-          setBlockOnTheBoard(selectedBlock, selectedXy);
+          setBoard((prevBoard) =>
+            updateBoard(selectedBlock, selectedXy, prevBoard),
+          );
+          /* 놓고나서 기존 값 초기화 */
+          setSelectedBlock(null);
+          setSelectedXy([]);
         } else {
           setImpossibleModal(true);
         }
       } else {
         if (selectedXy[0] <= 8 && selectedXy[1] <= 8) {
-          setBlockOnTheBoard(selectedBlock, selectedXy);
+          setBoard((prevBoard) =>
+            updateBoard(selectedBlock, selectedXy, prevBoard),
+          );
+          /* 놓고나서 기존 값 초기화 */
+          setSelectedBlock(null);
+          setSelectedXy([]);
         } else {
           setImpossibleModal(true);
         }
@@ -225,9 +235,19 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
         }
       };
       putRandomBlock();
-      setBlockOnTheBoard(blockNum, [row, col]);
+      setBoard((prevBoard) => updateBoard(blockNum, [row, col], prevBoard));
     }
   }, []);
+
+  useEffect(() => {
+    /* 블럭/위치가 모두 존재할 때, 실제 board 대신 mockBoard를 보여주어 미리보기 기능을 수행 */
+    if (selectedBlock && selectedXy.length !== 0) {
+      setMockBoard(board); // 현재 보드를 set 한 후,
+      setMockBoard((prevMockBoard) =>
+        updateBoard(selectedBlock, selectedXy, prevMockBoard),
+      ); // 현재 입력된 블럭/위치를 더하여 set
+    }
+  }, [selectedBlock, selectedXy]);
 
   return (
     <>
@@ -244,16 +264,21 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       {loseModal ? <LoseModal setLoseModal={setLoseModal} /> : null}
       <div className={MainCSS.alignCenter}>
         <div className={MainCSS.mainBox}>
-          {/* Header/Footer에 필요: selectedBlock, selectedXy */}
           <Header nickname={nickname} />
           <div className={MainCSS.flex}>
-            <Board
-              board={board}
-              selectedBlock={selectedBlock}
-              selectedXy={selectedXy}
-              setSelectedXy={setSelectedXy}
-              setBlockOnTheBoard={setBlockOnTheBoard}
-            />
+            {selectedBlock && selectedXy.length !== 0 ? (
+              <MockBoard
+                mockBoard={mockBoard}
+                selectedXy={selectedXy}
+                setSelectedXy={setSelectedXy}
+              />
+            ) : (
+              <Board
+                board={board}
+                selectedXy={selectedXy}
+                setSelectedXy={setSelectedXy}
+              />
+            )}
             <div>
               <FightersLayout
                 autoMode={autoMode}
