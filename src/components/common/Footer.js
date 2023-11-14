@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import MainCSS from "../../css/main.module.css";
-import setBlockOnTheBoard from "../board/Board";
 function Footer({
   setGiveUpModal,
   setRuleDesModal,
@@ -16,7 +15,6 @@ function Footer({
     }
   }, [errorText]);
 
-  /* error/confirm에 따라 p 태그 색상 변경 */
   let block;
   switch (selectedBlock) {
     case 1:
@@ -47,7 +45,10 @@ function Footer({
     }
 
     /* checkBoard() 호출 */
-    checkBoard(selectedBlock, selectedXy);
+    if (selectedBlock && selectedXy.length !== 0) {
+      checkBoard(selectedBlock, selectedXy);
+      setErrorText("");
+    }
   };
 
   return (

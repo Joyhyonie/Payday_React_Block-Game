@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import MainCSS from "../../css/main.module.css";
 import BoardItem from "./BoardItem";
 function Board({ board, selectedXy, setSelectedXy }) {
