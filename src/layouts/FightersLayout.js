@@ -6,14 +6,10 @@ function FightersLayout({
   autoMode,
   profile,
   first,
+  turn,
   selectedBlock,
   setSelectedBlock,
 }) {
-  /* 선공/후공 여부 판단 후, component 배치 설정 */
-
-  // first는 선/후공, turn은 현재 놓을 사람의 turn
-  const [turn, setTurn] = useState(first);
-
   return (
     <div className={MainCSS.fighters}>
       <div className={MainCSS.firstTurn}>

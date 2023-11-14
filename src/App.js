@@ -14,14 +14,6 @@ function App() {
   const [nickname, setNickname] = useState(""); // nickname
   const [first, setFirst] = useState(true); // first
 
-  // [임시] 출력용
-  // useEffect(() => {
-  //   console.log(autoMode);
-  //   console.log(profile);
-  //   console.log(nickname);
-  //   console.log(first);
-  // }, [autoMode, profile, nickname, first]);
-
   return (
     <>
       <BrowserRouter>

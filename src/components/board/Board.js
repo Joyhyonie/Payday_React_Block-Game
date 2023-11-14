@@ -5,7 +5,6 @@ function Board({ board, selectedXy, setSelectedXy }) {
   return (
     <>
       <div className={MainCSS.board}>
-        {/* selectedBlock과 selectedXy가 존재할 때 활성화 / 아닐 경우, BoardItem */}
         {board.map((row, rowIndex) =>
           row.map((col, colIndex) => (
             <BoardItem
