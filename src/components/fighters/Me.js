@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainCSS from "../../css/main.module.css";
 import bong from "../../../public/images/bong.png";
 import kim from "../../../public/images/kim.png";

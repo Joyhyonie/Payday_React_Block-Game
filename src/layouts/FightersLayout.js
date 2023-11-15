@@ -9,6 +9,7 @@ function FightersLayout({
   turn,
   selectedBlock,
   setSelectedBlock,
+  thinking,
 }) {
   return (
     <div className={MainCSS.fighters}>
@@ -20,6 +21,7 @@ function FightersLayout({
             profile={profile}
             selectedBlock={selectedBlock}
             setSelectedBlock={setSelectedBlock}
+            thinking={thinking}
           />
         ) : (
           <Someone
@@ -38,6 +40,7 @@ function FightersLayout({
             profile={profile}
             selectedBlock={selectedBlock}
             setSelectedBlock={setSelectedBlock}
+            thinking={thinking}
           />
         ) : (
           <Someone

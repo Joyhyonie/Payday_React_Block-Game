@@ -3,7 +3,7 @@ import miniLogo from "../../../public/images/mini-logo.png";
 import robot from "../../../public/images/robot.png";
 import MainCSS from "../../css/main.module.css";
 import TypingText from "./TypingText";
-function Header({ nickname }) {
+function Header({ nickname, setGameStart }) {
   /* Header 주요 역할 = 알맞은 infomation(text) 노출 */
   let test = 0; // [임시]
   const [text, setText] = useState("");
@@ -11,7 +11,7 @@ function Header({ nickname }) {
 
   useEffect(() => {
     if (test === 0) {
-      const timer = setTimeout(() => {
+      const introTimer = setTimeout(() => {
         setText(
           nickname +
             "님! 반갑습니다 (^o^)/ :*:･｡,☆ﾟ’･:*:･｡, \n" +
@@ -19,6 +19,17 @@ function Header({ nickname }) {
         );
         setTextParagraph(2);
       }, 2500);
+
+      const startTimer = setTimeout(() => {
+        setGameStart(true); // intro text 끝난 후, GameStart
+      }, 9000);
+
+      const clearTimers = () => {
+        clearTimeout(introTimer);
+        clearTimeout(startTimer);
+      };
+
+      return () => clearTimers();
     } else if (test === 1) {
       setText(
         nickname +

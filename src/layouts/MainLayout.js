@@ -18,7 +18,8 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [selectedXy, setSelectedXy] = useState([]);
   const [turn, setTurn] = useState(first);
-  const [thinking, setThinking] = useState(false); // findTheBestWay() 호출 시, true => checkBoard에서 false
+  const [thinking, setThinking] = useState(false);
+  const [gameStart, setGameStart] = useState(false);
   const [gameStartModal, setGameStartModal] = useState(true);
   const [impossibleModal, setImpossibleModal] = useState(false);
   const [giveUpModal, setGiveUpModal] = useState(false);
@@ -138,6 +139,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
           setSelectedBlock(null);
           setSelectedXy([]);
           setTurn(!turn);
+          setThinking(false);
         } else {
           setImpossibleModal(true);
         }
@@ -149,6 +151,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
           setSelectedBlock(null);
           setSelectedXy([]);
           setTurn(!turn);
+          setThinking(false);
         } else {
           setImpossibleModal(true);
         }
@@ -215,108 +218,134 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
     return xys;
   };
 
-  // 현재 'MainLayout.js:281 Uncaught RangeError: Maximum call stack size exceeded' 에러 발생
-  //
-  // /* 모든 경우의 수 좌표를 구하기 위한 재귀 함수 */
-  // const runRecursive = (xysList, board, currentRoute) => {
-  //   for (const xy of xysList) {
-  //     const tempBoard = JSON.parse(JSON.stringify(board));
-  //     updateBoard(xy[0], [xy[1], xy[2]], tempBoard); // java 코드와 다름
-  //
-  //     const tempXysList = [];
-  //
-  //     for (let blockNum = 1; blockNum <= 5; blockNum++) {
-  //       const tempXys = collectXys(blockNum, tempBoard);
-  //       tempXysList.push(...tempXys);
-  //     }
-  //
-  //     if (tempXysList.length === 0) {
-  //       const tempCurrentRoute = [...currentRoute, xy];
-  //       if (tempCurrentRoute.length % 2 === 1) {
-  //         winningRoutes.push([...tempCurrentRoute]);
-  //       }
-  //     } else {
-  //       const tempCurrentRoute = [...currentRoute, xy];
-  //       callRecursive(tempXysList, tempBoard, tempCurrentRoute);
-  //     }
-  //   }
-  // };
-  //
-  // /* runRecursive()를 호출하기 위한 함수 */
-  // const callRecursive = (xysList, board) => {
-  //   winningRoutes = []; // 이전 시점의 winningRoutes 제거
-  //   runRecursive(xysList, board, []);
-  // };
-  //
-  // let winningRoutes = [];
-  //
-  // /* 최선의 블럭 및 좌표를 찾아내기 위한 함수 */
-  // const findTheBestWay = () => {
-  //   console.log("findTheBestWay!!!!!!");
-  //   // 현재 가능한 경우의 수 List
-  //   let xysList = [];
-  //
-  //   // collectXys(): 경우의 수(좌표) 구하기
-  //   for (let blockNum = 1; blockNum <= 5; blockNum++) {
-  //     let xys = collectXys(blockNum, board);
-  //     xysList.push(xys);
-  //   }
-  //
-  //   console.log("현재 둘 수 있는 좌표 모음 => " + xysList);
-  //
-  //   // 재귀함수 호출
-  //   callRecursive(xysList, board); // winningRoutes에 앞으로 이길 수 있는 모든 Route 저장
-  //
-  //   // map으로 가장 많이 등장한 route.get(0) 찾기
-  //   let routeCount = new Map();
-  //   let maxCount = 0;
-  //   let mostFrequentRoute = null;
-  //
-  //   for (let route of winningRoutes) {
-  //     let key = JSON.stringify(route[0]);
-  //     let count = routeCount.get(key) || 0;
-  //     routeCount.set(key, count + 1);
-  //
-  //     if (count + 1 > maxCount) {
-  //       maxCount = count + 1;
-  //       mostFrequentRoute = route[0];
-  //     }
-  //   }
-  //
-  //   // way가 없을 경우, [0, 0, 0] 반환하여 패배
-  //   let way;
-  //
-  //   // mostFrequentRoute가 null이라는 것은, 이길 수 있는 경우의 수가 더 이상 존재하지 않음을 의미.
-  //   // 하지만 마지막까지 수를 둬야하므로 현재 둘 수 있는 좌표 찾기
-  //   if (mostFrequentRoute === null) {
-  //     let losingXysList = [];
-  //
-  //     for (let blockNum = 1; blockNum <= 5; blockNum++) {
-  //       let losingXys = collectXys(blockNum, board);
-  //
-  //       if (losingXys.length !== 0) {
-  //         losingXysList.push(losingXys);
-  //       }
-  //     }
-  //
-  //     if (losingXysList.length !== 0) {
-  //       way = [
-  //         losingXysList[0][0][0],
-  //         losingXysList[0][0][1],
-  //         losingXysList[0][0][2],
-  //       ];
-  //     } else {
-  //       way = [0, 0, 0];
-  //     }
-  //   } else {
-  //     way = mostFrequentRoute;
-  //   }
-  //
-  //   return way;
-  // };
-  //
-  // let way = findTheBestWay();
-  // updateBoard(way[0], [way[1], way[2]], board);
+  /* 모든 경우의 수 좌표를 구하기 위한 재귀 함수 */
+  const runRecursive = (xysList, board, currentRoute) => {
+    for (const xy of xysList) {
+      const tempBoard = JSON.parse(JSON.stringify(board));
+      updateBoard(xy[0], [xy[1], xy[2]], tempBoard); // java 코드와 다름
+
+      const tempXysList = [];
+
+      for (let blockNum = 1; blockNum <= 5; blockNum++) {
+        const tempXys = collectXys(blockNum, tempBoard);
+        tempXysList.push(...tempXys);
+      }
+
+      if (tempXysList.length === 0) {
+        const tempCurrentRoute = [...currentRoute, xy];
+        if (tempCurrentRoute.length % 2 === 1) {
+          winningRoutes.push([...tempCurrentRoute]);
+        }
+      } else {
+        const tempCurrentRoute = [...currentRoute, xy];
+        callRecursive(tempXysList, tempBoard, tempCurrentRoute);
+      }
+    }
+  };
+
+  /* runRecursive()를 호출하기 위한 함수 */
+  const callRecursive = (xysList, board) => {
+    winningRoutes = []; // 이전 시점의 winningRoutes 제거
+    runRecursive(xysList, board, []);
+  };
+
+  let winningRoutes = [];
+
+  /* 최선의 블럭 및 좌표를 찾아내기 위한 함수 */
+  const findTheBestWay = () => {
+    setThinking(true);
+    // 현재 가능한 경우의 수 List
+    let xysList = [];
+
+    // collectXys(): 경우의 수(좌표) 구하기
+    for (let blockNum = 1; blockNum <= 5; blockNum++) {
+      let xys = collectXys(blockNum, board);
+      xysList.push(xys);
+    }
+
+    // 현재 둘 수 있는 경우의 수 count
+    let totalXysCount = 0;
+    xysList.forEach((xys) => (totalXysCount += xys.length));
+    console.log("현재 둘 수 있는 경우의 수 count: " + totalXysCount);
+
+    let way;
+    if (totalXysCount < 50) {
+      // 현재 'MainLayout.js:281 Uncaught RangeError: Maximum call stack size exceeded' 에러 발생 !!!!!!!!!!!
+
+      // 앞으로의 경우의 수가 50가지 미만이라면, 최적의 루트를 찾는 재귀함수 호출
+      callRecursive(xysList, board); // winningRoutes에 앞으로 이길 수 있는 모든 Route 저장
+
+      // map으로 가장 많이 등장한 route.get(0) 찾기
+      let routeCount = new Map();
+      let maxCount = 0;
+      let mostFrequentRoute = null;
+
+      for (let route of winningRoutes) {
+        let key = JSON.stringify(route[0]);
+        let count = routeCount.get(key) || 0;
+        routeCount.set(key, count + 1);
+
+        if (count + 1 > maxCount) {
+          maxCount = count + 1;
+          mostFrequentRoute = route[0];
+        }
+      }
+
+      // mostFrequentRoute가 null이라는 것은, 이길 수 있는 경우의 수가 더 이상 존재하지 않음을 의미.
+      // 하지만 마지막까지 수를 둬야하므로 현재 둘 수 있는 좌표 찾기
+      if (mostFrequentRoute === null) {
+        let losingXysList = [];
+
+        for (let blockNum = 1; blockNum <= 5; blockNum++) {
+          let losingXys = collectXys(blockNum, board);
+
+          if (losingXys.length !== 0) {
+            losingXysList.push(losingXys);
+          }
+        }
+
+        if (losingXysList.length !== 0) {
+          way = [
+            losingXysList[0][0][0],
+            losingXysList[0][0][1],
+            losingXysList[0][0][2],
+          ];
+        } else {
+          way = [0, 0, 0];
+        }
+      } else {
+        way = mostFrequentRoute;
+      }
+    } else {
+      // 앞으로의 경우의 수가 50가지 이상이라면, 현재 가능한 좌표 중 랜덤으로 고르기
+      const getRandomXys = (array) => {
+        const randomXysIndex = Math.floor(Math.random() * array.length);
+        return array[randomXysIndex];
+      };
+
+      const getRandomXy = (array) => {
+        const randomXys = getRandomXys(array);
+        const randomXyIndex = Math.floor(Math.random() * randomXys.length);
+        return randomXys[randomXyIndex];
+      };
+
+      way = getRandomXy(xysList);
+      if (way === undefined) {
+        // way가 undefined가 아닐 때까지 반복
+        console.log("way가 undefined여서 다시 호출할게 ~ ^.^");
+        while (true) {
+          way = getRandomXy(xysList);
+          if (way !== undefined) {
+            break;
+          }
+        }
+      }
+
+      console.log("way: " + way);
+    }
+
+    return way;
+  };
 
   /* --------------------------------------------------------------------------------------------------------------- */
 
@@ -326,25 +355,6 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       setGameStartModal(false);
       return () => clearTimeout(timer);
     }, 2300);
-
-    /* Auto 선공일 경우, 맨 처음의 랜덤한 블럭&좌표를 지정하는 함수 */
-    // Game Start 및, 처음 info 끝난 후, 두는 것으로 순서 설정
-    if (autoMode && first) {
-      let blockNum;
-      let row, col;
-      const putRandomBlock = () => {
-        blockNum = Math.floor(Math.random() * 5) + 1;
-        if (blockNum === 1) {
-          row = Math.floor(Math.random() * 10);
-          col = Math.floor(Math.random() * 8);
-        } else {
-          row = Math.floor(Math.random() * 9);
-          col = Math.floor(Math.random() * 9);
-        }
-      };
-      putRandomBlock();
-      setBoard((prevBoard) => updateBoard(blockNum, [row, col], prevBoard));
-    }
   }, []);
 
   useEffect(() => {
@@ -356,6 +366,26 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       ); // 현재 입력된 블럭/위치를 더하여 set
     }
   }, [selectedBlock, selectedXy]);
+
+  useEffect(() => {
+    if (!turn) {
+      setThinking(false);
+    }
+
+    if (autoMode && turn && gameStart) {
+      setThinking(true);
+      const timer = setTimeout(() => {
+        /* 최적의 좌표 찾아오기 */
+        let way = findTheBestWay();
+        setBoard(
+          (prevBoard) => updateBoard(way[0], [way[1], way[2]], prevBoard), // 여기서 error
+        );
+        setTurn(false);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [turn, gameStart]);
 
   /* --------------------------------------------------------------------------------------------------------------- */
 
@@ -374,7 +404,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       {loseModal ? <LoseModal setLoseModal={setLoseModal} /> : null}
       <div className={MainCSS.alignCenter}>
         <div className={MainCSS.mainBox}>
-          <Header nickname={nickname} />
+          <Header nickname={nickname} setGameStart={setGameStart} />
           <div className={MainCSS.flex}>
             {selectedBlock && selectedXy.length !== 0 ? (
               <MockBoard
@@ -397,6 +427,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
                 turn={turn}
                 selectedBlock={selectedBlock}
                 setSelectedBlock={setSelectedBlock}
+                thinking={thinking}
               />
               <Footer
                 setGiveUpModal={setGiveUpModal}
