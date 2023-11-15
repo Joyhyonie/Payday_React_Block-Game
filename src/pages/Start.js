@@ -31,7 +31,10 @@ function Start({ setAutoMode, setProfile, nickname, setNickname, setFirst }) {
       <div className={CommonCSS.modeButtonBox}>
         <button
           style={{ padding: "0px 30px" }}
-          onClick={() => setInputModal(true)}
+          onClick={() => {
+            setInputModal(true);
+            setAutoMode(true);
+          }}
         >
           자동모드
         </button>

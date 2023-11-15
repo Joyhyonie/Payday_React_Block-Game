@@ -5,10 +5,10 @@ import BlockBox from "./BlockBox";
 import bong from "../../../public/images/bong.png";
 import Cover from "./Cover";
 import MockBlockBox from "./MockBlockBox";
-function Someone({ turn, selectedBlock, setSelectedBlock }) {
+function Someone({ turn, selectedBlock, setSelectedBlock, gameStart }) {
   return (
     <>
-      {turn ? <Cover /> : null}
+      {turn || !gameStart ? <Cover /> : null}
       <img src={ya} className={MainCSS.profile} alt="YA" />
       {!turn ? (
         <BlockBox

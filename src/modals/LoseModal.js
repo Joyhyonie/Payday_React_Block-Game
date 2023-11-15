@@ -2,11 +2,13 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import ModalCSS from "../css/modal.module.css";
 import ya from "../../public/images/ya.png";
-function loseModal({ setLoseModal }) {
+function loseModal({ nickname }) {
   const navigate = useNavigate();
 
-  /* [임시] user nickname */
-  let nickname = "Joy";
+  const goToStart = () => {
+    localStorage.clear(); // 처음으로: 기존의 data 모두 clear
+    navigate("/");
+  };
 
   return (
     <div className={ModalCSS.background} style={{ cursor: "default" }}>
@@ -21,14 +23,11 @@ function loseModal({ setLoseModal }) {
           상대방의 승리입니다. ㅠㅠ
         </div>
         <div className={ModalCSS.buttonBox}>
-          <button
-            className={ModalCSS.orangeButton}
-            onClick={() => navigate("/")}
-          >
+          <button className={ModalCSS.orangeButton} onClick={goToStart}>
             처음으로
           </button>
-          {/* mode, profile, nickname, turn 모두 이전과 동일한 값을 가진 상태에서 새 게임 시작 */}
-          <button>다시하기</button>
+          {/* mode, profile, nickname, first 모두 이전과 동일한 값을 가진 상태에서 새 게임 시작 */}
+          <button onClick={() => window.location.reload()}>다시하기</button>
         </div>
       </div>
     </div>

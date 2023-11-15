@@ -7,7 +7,14 @@ import BlockBox from "./BlockBox";
 import Cover from "./Cover";
 import Thinking from "./Thinking";
 import MockBlockBox from "./MockBlockBox";
-function Me({ turn, profile, selectedBlock, setSelectedBlock, thinking }) {
+function Me({
+  turn,
+  profile,
+  selectedBlock,
+  setSelectedBlock,
+  thinking,
+  gameStart,
+}) {
   let character;
   switch (profile) {
     case "bong":
@@ -25,7 +32,7 @@ function Me({ turn, profile, selectedBlock, setSelectedBlock, thinking }) {
 
   return (
     <>
-      {!turn ? <Cover /> : null}
+      {!turn || !gameStart ? <Cover /> : null}
       {thinking ? <Thinking /> : null}
       {turn ? (
         <BlockBox

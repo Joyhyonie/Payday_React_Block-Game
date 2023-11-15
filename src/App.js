@@ -9,10 +9,35 @@ function App() {
   const emptyBoard = Array.from({ length: 10 }, () =>
     Array(10).fill({ value: 0 }),
   );
-  const [autoMode, setAutoMode] = useState(true); // mode
-  const [profile, setProfile] = useState(""); // profile
-  const [nickname, setNickname] = useState(""); // nickname
-  const [first, setFirst] = useState(true); // first
+
+  // localStorage에서 값을 불러오기, 값이 없으면 기본값 설정
+  const [autoMode, setAutoMode] = useState(() => {
+    const savedValue = localStorage.getItem("autoMode");
+    return savedValue !== null ? JSON.parse(savedValue) : true;
+  });
+
+  const [profile, setProfile] = useState(() => {
+    const savedValue = localStorage.getItem("profile");
+    return savedValue !== null ? savedValue : "";
+  });
+
+  const [nickname, setNickname] = useState(() => {
+    const savedValue = localStorage.getItem("nickname");
+    return savedValue !== null ? savedValue : "";
+  });
+
+  const [first, setFirst] = useState(() => {
+    const savedValue = localStorage.getItem("first");
+    return savedValue !== null ? JSON.parse(savedValue) : true;
+  });
+
+  useEffect(() => {
+    /* state의 값이 변경될 때마다 localStorage 값 또한 변경 */
+    localStorage.setItem("autoMode", JSON.stringify(autoMode));
+    localStorage.setItem("profile", profile);
+    localStorage.setItem("nickname", nickname);
+    localStorage.setItem("first", JSON.stringify(first));
+  }, [autoMode, profile, nickname, first]);
 
   return (
     <>

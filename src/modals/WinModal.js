@@ -6,7 +6,7 @@ import lee from "../../public/images/lee.png";
 import { useNavigate } from "react-router-dom";
 import JSConfetti from "js-confetti";
 
-function winModal({ setWinModal }) {
+function winModal({ profile, nickname }) {
   const navigate = useNavigate();
   const comfetti = new JSConfetti();
 
@@ -22,10 +22,6 @@ function winModal({ setWinModal }) {
   /* winModal 활성화 시, 동작 */
   onCompetti();
 
-  /* [임시] user nickname/profile */
-  let nickname = "Joy";
-  let profile = "bong";
-
   let character;
   switch (profile) {
     case "bong":
@@ -38,6 +34,11 @@ function winModal({ setWinModal }) {
       character = lee;
       break;
   }
+
+  const goToStart = () => {
+    localStorage.clear(); // 처음으로: 기존의 data 모두 clear
+    navigate("/");
+  };
 
   return (
     <div className={ModalCSS.background} style={{ cursor: "default" }}>
@@ -56,14 +57,11 @@ function winModal({ setWinModal }) {
           {nickname}님의 승리입니다!
         </div>
         <div className={ModalCSS.buttonBox}>
-          <button
-            className={ModalCSS.orangeButton}
-            onClick={() => navigate("/")}
-          >
+          <button className={ModalCSS.orangeButton} onClick={goToStart}>
             처음으로
           </button>
-          {/* mode, profile, nickname, turn 모두 이전과 동일한 값을 가진 상태에서 새 게임 시작 */}
-          <button>다시하기</button>
+          {/* mode, profile, nickname, first 모두 이전과 동일한 값을 가진 상태에서 새 게임 시작 */}
+          <button onClick={() => window.location.reload()}>다시하기</button>
         </div>
       </div>
     </div>

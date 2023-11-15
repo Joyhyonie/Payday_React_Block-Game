@@ -311,7 +311,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
             losingXysList[0][0][2],
           ];
         } else {
-          way = [0, 0, 0];
+          way = [0, 0, 0]; // 반환 시, 패배
         }
       } else {
         way = mostFrequentRoute;
@@ -398,10 +398,17 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       {impossibleModal ? (
         <ImpossibleModal setImpossibleModal={setImpossibleModal} />
       ) : null}
-      {giveUpModal ? <GiveUpModal setGiveUpModal={setGiveUpModal} /> : null}
+      {giveUpModal ? (
+        <GiveUpModal
+          setGiveUpModal={setGiveUpModal}
+          turn={turn}
+          setWinModal={setWinModal}
+          setLoseModal={setLoseModal}
+        />
+      ) : null}
       {ruleDesModal ? <RuleDesModal setRuleDesModal={setRuleDesModal} /> : null}
-      {winModal ? <WinModal setWinModal={setWinModal} /> : null}
-      {loseModal ? <LoseModal setLoseModal={setLoseModal} /> : null}
+      {winModal ? <WinModal profile={profile} nickname={nickname} /> : null}
+      {loseModal ? <LoseModal nickname={nickname} /> : null}
       <div className={MainCSS.alignCenter}>
         <div className={MainCSS.mainBox}>
           <Header nickname={nickname} setGameStart={setGameStart} />
@@ -428,6 +435,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
                 selectedBlock={selectedBlock}
                 setSelectedBlock={setSelectedBlock}
                 thinking={thinking}
+                gameStart={gameStart}
               />
               <Footer
                 setGiveUpModal={setGiveUpModal}

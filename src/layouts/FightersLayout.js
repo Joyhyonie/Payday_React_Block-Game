@@ -10,6 +10,7 @@ function FightersLayout({
   selectedBlock,
   setSelectedBlock,
   thinking,
+  gameStart,
 }) {
   return (
     <div className={MainCSS.fighters}>
@@ -22,12 +23,14 @@ function FightersLayout({
             selectedBlock={selectedBlock}
             setSelectedBlock={setSelectedBlock}
             thinking={thinking}
+            gameStart={gameStart}
           />
         ) : (
           <Someone
             turn={turn}
             selectedBlock={selectedBlock}
             setSelectedBlock={setSelectedBlock}
+            gameStart={gameStart}
           />
         )}
       </div>
@@ -41,12 +44,14 @@ function FightersLayout({
             selectedBlock={selectedBlock}
             setSelectedBlock={setSelectedBlock}
             thinking={thinking}
+            gameStart={gameStart}
           />
         ) : (
           <Someone
             turn={turn}
             selectedBlock={selectedBlock}
             setSelectedBlock={setSelectedBlock}
+            gameStart={gameStart}
           />
         )}
       </div>
