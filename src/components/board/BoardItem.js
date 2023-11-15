@@ -8,17 +8,10 @@ function BoardItem({
   selectedXy,
   setSelectedXy,
 }) {
-  const clickedBoardItem = () => {
-    setSelectedXy([rowIndex, colIndex]);
-  };
-
   const getStyle = () => {
-    if (rowIndex === selectedXy[0] && colIndex === selectedXy[1]) {
-      return {
-        border: "2px solid #70CBFF",
-      };
-    }
-    return {};
+    return rowIndex === selectedXy[0] && colIndex === selectedXy[1]
+      ? { border: "2px solid #70CBFF" }
+      : {};
   };
 
   const getColor = () => {
@@ -39,7 +32,7 @@ function BoardItem({
   return (
     <div
       className={MainCSS.boardItem}
-      onClick={clickedBoardItem}
+      onClick={() => setSelectedXy([rowIndex, colIndex])}
       style={value === 1 ? getColor() : getStyle()}
     ></div>
   );

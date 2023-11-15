@@ -3,15 +3,40 @@ import miniLogo from "../../../public/images/mini-logo.png";
 import robot from "../../../public/images/robot.png";
 import MainCSS from "../../css/main.module.css";
 import TypingText from "./TypingText";
-function Header({ nickname, setGameStart }) {
-  // 필요 props: gameStart,
-
-  let test = 0; // [임시]
+function Header({
+  nickname,
+  selectedBlock,
+  selectedXy,
+  gameStart,
+  setGameStart,
+  turn,
+  thinking,
+}) {
   const [text, setText] = useState("");
   const [textParagraph, setTextParagraph] = useState(1);
 
+  let block;
+  switch (selectedBlock) {
+    case 1:
+      block = "첫";
+      break;
+    case 2:
+      block = "두";
+      break;
+    case 3:
+      block = "세";
+      break;
+    case 4:
+      block = "네";
+      break;
+    case 5:
+      block = "다섯";
+      break;
+  }
+
   useEffect(() => {
-    if (test === 0) {
+    if (!gameStart) {
+      console.log("첫번째 불림!");
       // gameStart가 false일 때(처음일 때),
       const introTimer = setTimeout(() => {
         setText(
@@ -32,26 +57,43 @@ function Header({ nickname, setGameStart }) {
       };
 
       return () => clearTimers();
-    } else if (test === 1) {
+    } else if (turn) {
+      console.log("두번째 불림!");
+      // turn이 true일 때 (setTimeOut으로 늦추기)
       setText(
         nickname +
-          "님이 다섯번째 블럭을 4열 6행에 두었습니다.\n" +
+          "님이 " +
+          block +
+          "번째 블럭을 " +
+          selectedXy[0] +
+          "열 " +
+          selectedXy[1] +
+          "행에 두었습니다.\n" +
           "상대방의 블럭 및 위치를 선택한 후, 놓기를 클릭해주세요.",
       );
       setTextParagraph(2);
-    } else if (test === 2) {
-      setText("상대방이 다섯번째 블럭을 4열 6행에 두었습니다.");
-      setTextParagraph(1);
-    } else if (test === 3) {
+    } else if (!turn) {
+      console.log("세번째 불림!");
+      // turn이 false일 때 (setTimeOut으로 늦추기)
       setText(
-        nickname + "님이 놓을 블럭 및 위치를 선택한 후, 놓기를 클릭해주세요.",
+        "상대방이 " +
+          block +
+          "번째 블럭을 " +
+          selectedXy[0] +
+          "열 " +
+          selectedXy[1] +
+          "행에 두었습니다.\n" +
+          nickname +
+          "님이 놓을 블럭 및 위치를 선택한 후, 놓기를 클릭해주세요.",
       );
-      setTextParagraph(1);
-    } else if (test === 4) {
-      setText(nickname + "님이 블럭 및 위치를 골똘히 고민 중입니다.....");
+      setTextParagraph(2);
+    } else if (thinking) {
+      console.log("네번째 불림!");
+      // thinking이 true일 때
+      setText(nickname + "님이 고민 중입니다.....");
       setTextParagraph(1);
     }
-  }, [test]);
+  }, [gameStart, turn]);
 
   return (
     <div className={MainCSS.header}>

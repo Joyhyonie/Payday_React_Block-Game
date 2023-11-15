@@ -18,6 +18,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [selectedXy, setSelectedXy] = useState([]);
   const [turn, setTurn] = useState(first);
+  const [toggle, setToggle] = useState(false);
   const [thinking, setThinking] = useState(false);
   const [gameStart, setGameStart] = useState(false);
   const [gameStartModal, setGameStartModal] = useState(true);
@@ -126,32 +127,35 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       setImpossibleModal(true);
     }
 
+    /* 놓을 수 있다면, board에 block 두기 */
+    const putBlock = () => {
+      setBoard((prevBoard) =>
+        updateBoard(selectedBlock, selectedXy, prevBoard),
+      );
+      // 놓은 후, 기존 값 초기화 & turn 변경
+      setSelectedBlock(null);
+      setSelectedXy([]);
+      setTurn(!turn);
+      setThinking(false);
+      // 놓은 후, 앞으로 둘 수 있는 경우의 수가 0개라면, 현재 turn이 true라면 내가 진 것 / false라면 상대방이 진 것 (바로 위에서 turn을 변경했다는 기준하에)
+      // 현재 반영된 board 기준으로 count 해야하므로, useEffect 안에서 실행되어야하기 때문에,
+      // checkBoard()가 호출될 때마다 해당 useEffect를 렌더링 시키기 위해 toggle(useState) 생성
+      setToggle(!toggle);
+    };
+
     /* count가 0보다 크다. = 블럭이 해당 위치에 들어갈 수 없다. */
     if (count > 0) {
       setImpossibleModal(true);
     } else {
       if (selectedBlock === 1) {
         if (selectedXy[0] <= 9 && selectedXy[1] <= 7) {
-          setBoard((prevBoard) =>
-            updateBoard(selectedBlock, selectedXy, prevBoard),
-          );
-          /* 놓은 후, 기존 값 초기화 & turn 변경 */
-          setSelectedBlock(null);
-          setSelectedXy([]);
-          setTurn(!turn);
-          setThinking(false);
+          putBlock();
         } else {
           setImpossibleModal(true);
         }
       } else {
         if (selectedXy[0] <= 8 && selectedXy[1] <= 8) {
-          setBoard((prevBoard) =>
-            updateBoard(selectedBlock, selectedXy, prevBoard),
-          );
-          setSelectedBlock(null);
-          setSelectedXy([]);
-          setTurn(!turn);
-          setThinking(false);
+          putBlock();
         } else {
           setImpossibleModal(true);
         }
@@ -205,7 +209,10 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
                 }
                 break;
               case 5:
-                if (board[i][j + 1] === 0 && board[i + 1][j + 1] === 0) {
+                if (
+                  board[i][j + 1].value === 0 &&
+                  board[i + 1][j + 1].value === 0
+                ) {
                   xys.push([selectedBlock, i, j]);
                 }
                 break;
@@ -387,6 +394,24 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
     }
   }, [turn, gameStart]);
 
+  /* 앞으로 둘 수 있는 count가 0일 때, Win or Lose modal을 띄우는 useEffect */
+  useEffect(() => {
+    let xysList = [];
+
+    for (let blockNum = 1; blockNum <= 5; blockNum++) {
+      let xys = collectXys(blockNum, board);
+      xysList.push(xys);
+    }
+
+    let totalXysCount = 0;
+    xysList.forEach((xys) => (totalXysCount += xys.length));
+    console.log("count: " + totalXysCount);
+
+    if (totalXysCount === 0) {
+      turn ? setLoseModal(true) : setWinModal(true);
+    }
+  }, [toggle]);
+
   /* --------------------------------------------------------------------------------------------------------------- */
 
   return (
@@ -411,7 +436,15 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       {loseModal ? <LoseModal nickname={nickname} /> : null}
       <div className={MainCSS.alignCenter}>
         <div className={MainCSS.mainBox}>
-          <Header nickname={nickname} setGameStart={setGameStart} />
+          <Header
+            nickname={nickname}
+            selectedBlock={selectedBlock}
+            selectedXy={selectedXy}
+            gameStart={gameStart}
+            setGameStart={setGameStart}
+            turn={turn}
+            thinking={thinking}
+          />
           <div className={MainCSS.flex}>
             {selectedBlock && selectedXy.length !== 0 ? (
               <MockBoard
