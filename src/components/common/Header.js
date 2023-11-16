@@ -15,9 +15,6 @@ function Header({
   const [text, setText] = useState("");
   const [textParagraph, setTextParagraph] = useState(1);
 
-  console.log("prevBlock: " + prevBlock);
-  console.log("prevXy: " + prevXy);
-
   let block;
   switch (prevBlock) {
     case 1:
@@ -87,7 +84,6 @@ function Header({
   }, []);
 
   useEffect(() => {
-    console.log("두번째 불림!");
     if (info === "someone") {
       // 내가 두었고, 상대방이 둘 차례일 때,
       setText(

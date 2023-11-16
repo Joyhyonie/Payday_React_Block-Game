@@ -145,11 +145,6 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       setPrevBlock(selectedBlock);
       setPrevXy(selectedXy);
       // 놓은 후, 기존 값 초기화 & turn 변경
-      console.log("비우기 전 block: " + selectedBlock);
-      console.log("비우기 전 xy: " + selectedXy);
-      console.log(
-        "================================비운다!==========================================",
-      );
       setSelectedBlock(null);
       setSelectedXy([]);
       setTurn(!turn);
@@ -246,7 +241,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
   const runRecursive = (xysList, board, currentRoute) => {
     for (const xy of xysList) {
       const tempBoard = JSON.parse(JSON.stringify(board));
-      updateBoard(xy[0], [xy[1], xy[2]], tempBoard); // java 코드와 다름
+      updateBoard(xy[0], [xy[1], xy[2]], tempBoard); // set된 newBoard를 반환하기 때문에 받아서
 
       const tempXysList = [];
 
@@ -262,7 +257,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
         }
       } else {
         const tempCurrentRoute = [...currentRoute, xy];
-        callRecursive(tempXysList, tempBoard, tempCurrentRoute);
+        runRecursive(tempXysList, tempBoard, tempCurrentRoute);
       }
     }
   };
@@ -426,7 +421,6 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
 
     let totalXysCount = 0;
     xysList.forEach((xys) => (totalXysCount += xys.length));
-    console.log("count: " + totalXysCount);
 
     if (totalXysCount === 0) {
       turn ? setLoseModal(true) : setWinModal(true);
