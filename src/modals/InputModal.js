@@ -9,12 +9,15 @@ function inputModal({
   setProfile,
   nickname,
   setNickname,
+  first,
   setFirst,
 }) {
   const navigate = useNavigate();
   const [selectedProfile, setSelectedProfile] = useState("");
   const [alertPro, setAlertPro] = useState(false);
   const [alertNickname, setAlertNickname] = useState(false);
+  const [alertFirst, setAlertFirst] = useState(false);
+  const [isClicked, setIsClicked] = useState(false);
 
   const getStyle = (profile) => {
     return {
@@ -28,18 +31,37 @@ function inputModal({
     setProfile(profile);
   };
 
+  useEffect(() => {
+    console.log("selectedProfile: " + selectedProfile);
+    console.log("nickname: " + nickname);
+    console.log("first: " + first);
+  }, [selectedProfile, nickname, first]);
+
   const startGame = () => {
     /* 게임 시작 전, 모든 input이 정상적으로 입력된 것을 검증 후, main으로 navigate */
     setAlertPro(false);
     setAlertNickname(false);
+    setAlertFirst(false);
 
-    if (selectedProfile === "" && nickname.length === 0) {
+    if (selectedProfile === "" && nickname.length === 0 && !isClicked) {
       setAlertPro(true);
       setAlertNickname(true);
+      setAlertFirst(true);
+    } else if (selectedProfile === "" && nickname.length === 0) {
+      setAlertPro(true);
+      setAlertNickname(true);
+    } else if (nickname.length === 0 && !isClicked) {
+      setAlertNickname(true);
+      setAlertFirst(true);
+    } else if (selectedProfile === "" && !isClicked) {
+      setAlertPro(true);
+      setAlertFirst(true);
     } else if (selectedProfile === "") {
       setAlertPro(true);
     } else if (nickname.length === 0) {
       setAlertNickname(true);
+    } else if (!isClicked) {
+      setAlertFirst(true);
     } else {
       navigate("/main");
     }
@@ -86,22 +108,28 @@ function inputModal({
             type="radio"
             name="turn"
             value="first"
-            defaultChecked
-            onChange={(e) => setFirst(true)}
+            onChange={(e) => {
+              setFirst(true);
+              setIsClicked(true);
+            }}
           />
           선공
           <input
             type="radio"
             name="turn"
             value="later"
-            onChange={(e) => setFirst(false)}
+            onChange={(e) => {
+              setFirst(false);
+              setIsClicked(true);
+            }}
           />
           후공
         </div>
+        <p>{alertFirst ? "! 선공 or 후공을 선택해주세요." : "\u00A0"}</p>
         <div className={ModalCSS.buttonBox}>
           <button
             className={ModalCSS.orangeButton}
-            style={{ padding: "0px 40px", marginTop: "20px" }}
+            style={{ padding: "0px 40px" }}
             onClick={() => startGame()}
           >
             게임 시작

@@ -17,7 +17,10 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
   const [mockBoard, setMockBoard] = useState(board);
   const [selectedBlock, setSelectedBlock] = useState(null);
   const [selectedXy, setSelectedXy] = useState([]);
+  const [prevBlock, setPrevBlock] = useState(null);
+  const [prevXy, setPrevXy] = useState([]);
   const [turn, setTurn] = useState(first);
+  const [info, setInfo] = useState("");
   const [toggle, setToggle] = useState(false);
   const [thinking, setThinking] = useState(false);
   const [gameStart, setGameStart] = useState(false);
@@ -132,7 +135,21 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       setBoard((prevBoard) =>
         updateBoard(selectedBlock, selectedXy, prevBoard),
       );
+      // 현재 turn을 확인한 후, Header에 알맞은 info를 띄우기 위한 if문
+      if (turn) {
+        setInfo("someone");
+      } else {
+        autoMode ? setInfo("auto") : setInfo("passive");
+      }
+      // info에 블럭/위치를 나타내기 위해 현재의 블럭/위치를 prevBlock/prevXy에 저장
+      setPrevBlock(selectedBlock);
+      setPrevXy(selectedXy);
       // 놓은 후, 기존 값 초기화 & turn 변경
+      console.log("비우기 전 block: " + selectedBlock);
+      console.log("비우기 전 xy: " + selectedXy);
+      console.log(
+        "================================비운다!==========================================",
+      );
       setSelectedBlock(null);
       setSelectedXy([]);
       setTurn(!turn);
@@ -384,9 +401,13 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       const timer = setTimeout(() => {
         /* 최적의 좌표 찾아오기 */
         let way = findTheBestWay();
-        setBoard(
-          (prevBoard) => updateBoard(way[0], [way[1], way[2]], prevBoard), // 여기서 error
+        setBoard((prevBoard) =>
+          updateBoard(way[0], [way[1], way[2]], prevBoard),
         );
+        // info에 블럭/위치를 나타내기 위해 현재의 블럭/위치를 prevBlock/prevXy에 저장
+        setPrevBlock(way[0]);
+        setPrevXy([way[1], way[2]]);
+        setInfo("someone");
         setTurn(false);
       }, 1000);
 
@@ -437,13 +458,13 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       <div className={MainCSS.alignCenter}>
         <div className={MainCSS.mainBox}>
           <Header
+            autoMode={autoMode}
             nickname={nickname}
-            selectedBlock={selectedBlock}
-            selectedXy={selectedXy}
-            gameStart={gameStart}
+            prevBlock={prevBlock}
+            prevXy={prevXy}
             setGameStart={setGameStart}
             turn={turn}
-            thinking={thinking}
+            info={info}
           />
           <div className={MainCSS.flex}>
             {selectedBlock && selectedXy.length !== 0 ? (

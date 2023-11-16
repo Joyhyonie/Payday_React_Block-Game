@@ -36,7 +36,11 @@ function winModal({ profile, nickname }) {
   }
 
   const goToStart = () => {
-    localStorage.clear(); // 처음으로: 기존의 data 모두 clear
+    // localStorage.clear(); // 처음으로: 기존의 data 모두 clear
+    localStorage.removeItem("autoMode");
+    localStorage.removeItem("profile");
+    localStorage.removeItem("nickname");
+    localStorage.removeItem("first");
     navigate("/");
   };
 

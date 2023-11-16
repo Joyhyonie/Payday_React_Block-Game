@@ -1,22 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 function TypingText({ text, textParagraph }) {
   const [textBox, setTextBox] = useState("");
-  const [count, setCount] = useState(0);
-
-  let speed = 50;
 
   useEffect(() => {
+    let count = 0;
+    const speed = 40;
+
     const interval = setInterval(() => {
-      setTextBox((textBox) => {
-        let updated = textBox;
-        updated = textBox + text[count];
-        return updated;
-      });
-      setCount(count + 1);
+      if (count <= text.length) {
+        setTextBox(text.substring(0, count));
+        count++;
+      } else {
+        clearInterval(interval);
+      }
     }, speed);
-    count === text.length && clearInterval(interval);
+
     return () => clearInterval(interval);
-  });
+  }, [text]);
 
   return (
     <pre style={{ marginTop: textParagraph === 1 ? "20px" : "10px" }}>

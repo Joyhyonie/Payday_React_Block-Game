@@ -53,6 +53,7 @@ function App() {
                   setProfile={setProfile}
                   nickname={nickname}
                   setNickname={setNickname}
+                  first={first}
                   setFirst={setFirst}
                 />
               }

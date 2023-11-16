@@ -4,19 +4,22 @@ import robot from "../../../public/images/robot.png";
 import MainCSS from "../../css/main.module.css";
 import TypingText from "./TypingText";
 function Header({
+  autoMode,
   nickname,
-  selectedBlock,
-  selectedXy,
-  gameStart,
+  prevBlock,
+  prevXy,
   setGameStart,
   turn,
-  thinking,
+  info,
 }) {
   const [text, setText] = useState("");
   const [textParagraph, setTextParagraph] = useState(1);
 
+  console.log("prevBlock: " + prevBlock);
+  console.log("prevXy: " + prevXy);
+
   let block;
-  switch (selectedBlock) {
+  switch (prevBlock) {
     case 1:
       block = "첫";
       break;
@@ -35,65 +38,90 @@ function Header({
   }
 
   useEffect(() => {
-    if (!gameStart) {
-      console.log("첫번째 불림!");
-      // gameStart가 false일 때(처음일 때),
-      const introTimer = setTimeout(() => {
+    setText("WELCOME TO BLOCK GAME");
+  }, []);
+
+  /* intro */
+  useEffect(() => {
+    const introTimer = setTimeout(() => {
+      setText(
+        nickname +
+          "님! 반갑습니다 (^o^)/ :*:･｡,☆ﾟ’･:*:･｡, \n" +
+          "게임 설명은 오른쪽 하단을 참고해주세요! 그럼 게임 시작 ~!",
+      );
+      setTextParagraph(2);
+    }, 2500);
+
+    const startTimer = setTimeout(() => {
+      setGameStart(true); // intro text 끝난 후, GameStart
+      if (turn) {
+        // autoMode ? 내가 선공이고, auto일 때의 text : 내가 선공이고, passive일 때의 text;
+        if (autoMode) {
+          setText(nickname + "님이 선공! 자동으로 블럭을 둡니다.");
+          setTextParagraph(1);
+        } else {
+          setText(
+            nickname +
+              "님이 선공!\n" +
+              nickname +
+              "님이 놓을 블럭 및 위치를 선택한 후, 놓기를 클릭해주세요.",
+          );
+          setTextParagraph(2);
+        }
+      } else {
         setText(
           nickname +
-            "님! 반갑습니다 (^o^)/ :*:･｡,☆ﾟ’･:*:･｡, \n" +
-            "게임 설명은 오른쪽 하단을 참고해주세요! 그럼 게임 시작 ~!",
+            "님이 후공!\n" +
+            "상대방의 블럭 및 위치를 선택한 후, 놓기를 클릭해주세요.",
         );
         setTextParagraph(2);
-      }, 2500);
+      }
+    }, 8000);
 
-      const startTimer = setTimeout(() => {
-        setGameStart(true); // intro text 끝난 후, GameStart
-      }, 8000);
+    const clearTimers = () => {
+      clearTimeout(introTimer);
+      clearTimeout(startTimer);
+    };
 
-      const clearTimers = () => {
-        clearTimeout(introTimer);
-        clearTimeout(startTimer);
-      };
+    return () => clearTimers();
+  }, []);
 
-      return () => clearTimers();
-    } else if (turn) {
-      console.log("두번째 불림!");
-      // turn이 true일 때 (setTimeOut으로 늦추기)
+  useEffect(() => {
+    console.log("두번째 불림!");
+    if (info === "someone") {
+      // 내가 두었고, 상대방이 둘 차례일 때,
       setText(
         nickname +
           "님이 " +
           block +
           "번째 블럭을 " +
-          selectedXy[0] +
+          prevXy[0] +
           "열 " +
-          selectedXy[1] +
+          prevXy[1] +
           "행에 두었습니다.\n" +
           "상대방의 블럭 및 위치를 선택한 후, 놓기를 클릭해주세요.",
       );
       setTextParagraph(2);
-    } else if (!turn) {
-      console.log("세번째 불림!");
-      // turn이 false일 때 (setTimeOut으로 늦추기)
+    } else if (info === "auto") {
+      // 상대방이 두었고, 내가 auto일 때,
+      setText(nickname + "님 고민 중.....");
+      setTextParagraph(1);
+    } else if (info === "passive") {
+      // 상대방이 두었고, 내가 passive일 때,
       setText(
         "상대방이 " +
           block +
           "번째 블럭을 " +
-          selectedXy[0] +
+          prevXy[0] +
           "열 " +
-          selectedXy[1] +
+          prevXy[1] +
           "행에 두었습니다.\n" +
           nickname +
           "님이 놓을 블럭 및 위치를 선택한 후, 놓기를 클릭해주세요.",
       );
       setTextParagraph(2);
-    } else if (thinking) {
-      console.log("네번째 불림!");
-      // thinking이 true일 때
-      setText(nickname + "님이 고민 중입니다.....");
-      setTextParagraph(1);
     }
-  }, [gameStart, turn]);
+  }, [info]);
 
   return (
     <div className={MainCSS.header}>
