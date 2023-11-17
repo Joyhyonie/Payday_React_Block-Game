@@ -2,6 +2,8 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 
 module.exports = {
+  mode: "development", // 디버깅을 위한 개발모드 설정
+  devtool: "inline-source-map",
   entry: ["./src/index.js"],
   output: {
     path: __dirname + "/dist",

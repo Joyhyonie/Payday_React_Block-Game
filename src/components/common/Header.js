@@ -100,7 +100,7 @@ function Header({
       setTextParagraph(2);
     } else if (info === "auto") {
       // 상대방이 두었고, 내가 auto일 때,
-      setText(nickname + "님 고민 중.....");
+      setText(nickname + "님은 고민 중.....");
       setTextParagraph(1);
     } else if (info === "passive") {
       // 상대방이 두었고, 내가 passive일 때,
