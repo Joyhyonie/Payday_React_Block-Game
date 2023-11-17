@@ -254,14 +254,20 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       // console.log("tempXysList: " + tempXysList);
 
       if (tempXysList.length === 0) {
-        const tempCurrentRoute = [...currentRoute, xy];
-        if (tempCurrentRoute.length % 2 === 1) {
-          winningRoutes.push([...tempCurrentRoute]);
+        currentRoute.push(xy);
+        if (currentRoute.length % 2 === 1) {
+          winningRoutes.push([...currentRoute]);
         }
-        // console.log("winningRoute: " + winningRoutes);
+        console.log("완료 currentRoute: " + currentRoute);
+        console.log(
+          "리스트 추가 완. ====================================================",
+        );
+        currentRoute.pop(); // 원상 복구
       } else {
-        const tempCurrentRoute = [...currentRoute, xy];
-        runRecursive(tempXysList, newBoard, tempCurrentRoute);
+        currentRoute.push(xy);
+        runRecursive(tempXysList, newBoard, currentRoute);
+        console.log("진행중 currentRoute: " + currentRoute);
+        currentRoute.pop(); // 원상 복구
       }
     }
   };
@@ -285,7 +291,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
     }
 
     let way;
-    if (xysList.length < 20) {
+    if (xysList.length < 30) {
       // 앞으로의 경우의 수가 20가지 미만이라면, 최적의 루트를 찾는 재귀함수 호출
       callRecursive(xysList, board); // winningRoutes에 앞으로 이길 수 있는 모든 Route 저장
 

@@ -73,7 +73,7 @@ function Header({
         );
         setTextParagraph(2);
       }
-    }, 8000);
+    }, 7000);
 
     const clearTimers = () => {
       clearTimeout(introTimer);
