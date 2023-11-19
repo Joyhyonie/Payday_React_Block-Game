@@ -251,22 +251,17 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
         const tempXys = collectXys(blockNum, newBoard);
         tempXysList.push(...tempXys);
       }
-      // console.log("tempXysList: " + tempXysList);
 
       if (tempXysList.length === 0) {
         currentRoute.push(xy);
         if (currentRoute.length % 2 === 1) {
+          // console.log("[...currentRoute]: " + [...currentRoute]);
           winningRoutes.push([...currentRoute]);
         }
-        console.log("완료 currentRoute: " + currentRoute);
-        console.log(
-          "리스트 추가 완. ====================================================",
-        );
         currentRoute.pop(); // 원상 복구
       } else {
         currentRoute.push(xy);
         runRecursive(tempXysList, newBoard, currentRoute);
-        console.log("진행중 currentRoute: " + currentRoute);
         currentRoute.pop(); // 원상 복구
       }
     }
@@ -291,7 +286,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
     }
 
     let way;
-    if (xysList.length < 30) {
+    if (xysList.length < 20) {
       // 앞으로의 경우의 수가 20가지 미만이라면, 최적의 루트를 찾는 재귀함수 호출
       callRecursive(xysList, board); // winningRoutes에 앞으로 이길 수 있는 모든 Route 저장
 
@@ -308,7 +303,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
         if (count + 1 > maxCount) {
           maxCount = count + 1;
           mostFrequentRoute = route[0];
-          console.log("mostFrequentRoute: " + mostFrequentRoute);
+          // console.log("mostFrequentRoute: " + mostFrequentRoute);
         }
       }
 
@@ -331,7 +326,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
             losingXysList[0][0][1],
             losingXysList[0][0][2],
           ];
-          console.log("졌잘싸...! : " + way);
+          // console.log("졌잘싸...! : " + way);
         } else {
           way = [0, 0, 0]; // 반환 시, 패배
         }
@@ -358,7 +353,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
       }
     }
 
-    console.log("way: " + way);
+    // console.log("way: " + way);
     return way;
   };
 
@@ -421,7 +416,7 @@ function MainLayout({ emptyBoard, autoMode, profile, nickname, first }) {
     }
 
     // 현재 둘 수 있는 경우의 수 count
-    console.log("현재 둘 수 있는 경우의 수 count: " + xysList.length);
+    // console.log("현재 둘 수 있는 경우의 수 count: " + xysList.length);
 
     if (xysList.length === 0) {
       turn ? setLoseModal(true) : setWinModal(true);
